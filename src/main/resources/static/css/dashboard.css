@@ -1,0 +1,249 @@
+/* ページ全体の基本設定 */
+* {
+  margin: 0; /* 全要素のデフォルトマージンをリセット */
+  padding: 0; /* 全要素のデフォルトパディングをリセット */
+  box-sizing: border-box; /* ボーダーとパディングを要素の幅に含める */
+}
+
+/* body要素のスタイリング */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* モダンで読みやすいフォント */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* 美しいグラデーション背景 */
+  margin: 0; /* bodyのデフォルトマージンを削除 */
+  padding: 20px; /* 全体に適度な余白を追加 */
+  min-height: 100vh; /* 最小高さを画面全体に設定 */
+  color: #333; /* テキストの基本色を濃いグレーに設定 */
+}
+
+/* メインコンテナのスタイリング */
+.container {
+  max-width: 1200px; /* 最大幅を設定して読みやすさを確保 */
+  margin: 0 auto; /* 中央揃えで配置 */
+  background: rgba(255, 255, 255, 0.95); /* 半透明の白背景 */
+  backdrop-filter: blur(10px); /* 背景ぼかし効果でガラス風デザイン */
+  border-radius: 15px; /* 角を丸くしてモダンな印象 */
+  padding: 30px; /* 内部に適度な余白 */
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1); /* 浮き上がって見える影効果 */
+}
+
+/* メインタイトルのスタイリング */
+h1 {
+  text-align: center; /* 中央揃え */
+  color: #333; /* 濃いグレーで視認性を確保 */
+  margin-bottom: 30px; /* 下部に余白を追加 */
+  font-size: 2.5rem; /* 大きなフォントサイズでインパクト */
+}
+
+/* 新規追加：データタイプ選択エリア */
+.data-type-selector {
+  display: flex; /* フレックスボックスで横並び配置 */
+  justify-content: center; /* 中央揃えで配置 */
+  gap: 30px; /* ラジオボタン間の間隔 */
+  margin: 25px 0; /* 上下に余白を追加 */
+  padding: 20px; /* 内部に余白 */
+  background: rgba(255, 255, 255, 0.7); /* 薄い白背景でセクション分け */
+  border-radius: 12px; /* 角を丸くして統一感 */
+  border: 2px solid rgba(102, 126, 234, 0.2); /* 薄い境界線でアクセント */
+}
+
+/* ラジオボタンのラベルスタイリング */
+.radio-label {
+  display: flex; /* フレックスで要素を整列 */
+  align-items: center; /* 垂直方向の中央揃え */
+  cursor: pointer; /* マウスオーバーでポインターカーソル */
+  font-size: 1.1rem; /* 少し大きめのフォントサイズ */
+  font-weight: 600; /* 太字で強調 */
+  color: #555; /* ミディアムグレーで落ち着いた印象 */
+  transition: all 0.3s ease; /* スムーズなアニメーション効果 */
+  padding: 10px 15px; /* 内部に余白でクリック領域を拡大 */
+  border-radius: 8px; /* 角を丸くして親しみやすい印象 */
+}
+
+/* ラジオボタンのラベルホバー効果 */
+.radio-label:hover {
+  color: #667eea; /* ホバー時にブランドカラーに変更 */
+  background: rgba(102, 126, 234, 0.1); /* 薄い背景色でホバー状態を表現 */
+  transform: translateY(-2px); /* 軽く浮き上がる効果 */
+}
+
+/* ラジオボタンの基本スタイル */
+.radio-label input[type="radio"] {
+  margin-right: 8px; /* ラジオボタンとテキストの間隔 */
+  transform: scale(1.2); /* ラジオボタンを少し大きく */
+  accent-color: #667eea; /* ラジオボタンの選択色をブランドカラーに */
+}
+
+/* 選択されたラジオボタンのラベル */
+.radio-label:has(input[type="radio"]:checked) {
+  color: #667eea; /* 選択時のテキスト色 */
+  background: rgba(102, 126, 234, 0.15); /* 選択時の背景色 */
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3); /* 選択時の影効果 */
+}
+
+/* 操作コントロールエリア */
+.controls {
+  display: flex; /* フレックスボックスで横並び */
+  justify-content: center; /* 中央揃え */
+  align-items: center; /* 垂直方向の中央揃え */
+  gap: 15px; /* 要素間の間隔 */
+  margin: 30px 0; /* 上下に余白 */
+  flex-wrap: wrap; /* 画面幅が狭い時は折り返し */
+}
+
+/* セレクトボックスとボタンの共通スタイル */
+select, button {
+  padding: 12px 15px; /* 内部の余白 */
+  font-size: 16px; /* 読みやすいフォントサイズ */
+  border: 2px solid #e0e0e0; /* 薄いグレーの境界線 */
+  border-radius: 8px; /* 角を丸くして親しみやすく */
+  background: white; /* 白背景 */
+  min-width: 180px; /* 最小幅を設定 */
+  transition: all 0.3s ease; /* スムーズなアニメーション */
+}
+
+/* セレクトボックスのフォーカス時スタイル */
+select:focus {
+  outline: none; /* デフォルトのアウトラインを削除 */
+  border-color: #667eea; /* フォーカス時の境界線色 */
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); /* フォーカス時の影効果 */
+}
+
+/* VS表示テキスト */
+.vs-text {
+  font-size: 1.5rem; /* 大きめのフォントサイズ */
+  color: #667eea; /* ブランドカラー */
+  font-weight: 600; /* 太字で強調 */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* 軽い影効果 */
+}
+
+/* ボタンの特別スタイリング */
+button {
+  background: linear-gradient(45deg, #667eea, #764ba2); /* グラデーション背景 */
+  color: white; /* 白文字 */
+  border: none; /* 境界線なし */
+  cursor: pointer; /* ポインターカーソル */
+  font-weight: 600; /* 太字 */
+  min-width: 200px; /* ボタンの最小幅 */
+}
+
+/* ボタンのホバー効果 */
+button:hover {
+  transform: translateY(-2px); /* 浮き上がり効果 */
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3); /* ホバー時の影 */
+}
+
+/* 無効化されたボタン */
+button:disabled {
+  background: #ccc; /* グレー背景 */
+  cursor: not-allowed; /* 禁止カーソル */
+  transform: none; /* ホバー効果を無効化 */
+  box-shadow: none; /* 影効果を削除 */
+}
+
+/* グラフコンテナ */
+#chartContainer {
+  height: 500px; /* 固定の高さ */
+  margin-top: 30px; /* 上部に余白 */
+  background: rgba(255, 255, 255, 0.5); /* 薄い白背景 */
+  border-radius: 10px; /* 角を丸く */
+  padding: 20px; /* 内部に余白 */
+}
+
+/* ローディング表示 */
+.loading {
+  text-align: center; /* 中央揃え */
+  padding: 40px; /* 内部に余白 */
+  font-size: 1.2rem; /* 大きめのフォント */
+  color: #667eea; /* ブランドカラー */
+}
+
+/* エラーメッセージ */
+.error {
+  text-align: center; /* 中央揃え */
+  padding: 15px; /* 内部に余白 */
+  background: #ffebee; /* 薄い赤背景 */
+  border: 1px solid #f44336; /* 赤い境界線 */
+  border-radius: 8px; /* 角を丸く */
+  color: #c62828; /* 濃い赤文字 */
+  margin: 20px 0; /* 上下に余白 */
+}
+
+/* 非表示クラス */
+.hidden {
+  display: none; /* 要素を完全に非表示 */
+}
+
+/* レスポンシブデザイン：タブレット・スマホ対応 */
+@media (max-width: 768px) {
+  /* データタイプ選択を縦並びに */
+  .data-type-selector {
+    flex-direction: column; /* 縦方向の配置 */
+    gap: 15px; /* 間隔を狭く */
+  }
+
+  /* 操作コントロールを縦並びに */
+  .controls {
+    flex-direction: column; /* 縦方向の配置 */
+  }
+
+  /* セレクトボックスとボタンを全幅に */
+  select, button {
+    width: 100%; /* 全幅で表示 */
+    max-width: 300px; /* 最大幅を制限 */
+  }
+
+  /* グラフコンテナの高さを調整 */
+  #chartContainer {
+    height: 400px; /* モバイルでは高さを縮小 */
+    padding: 15px; /* パディングも縮小 */
+  }
+
+  /* メインタイトルのサイズ調整 */
+  h1 {
+    font-size: 2rem; /* フォントサイズを縮小 */
+  }
+}
+
+/*
+=== dashboard.css の詳細解説 ===
+
+【新規追加されたスタイル】
+1. .data-type-selector
+   - データタイプ選択エリアのコンテナスタイル
+   - フレックスボックスで横並び配置
+   - 薄い背景色と境界線でセクション分けを明確化
+
+2. .radio-label
+   - ラジオボタンとラベルのペアスタイリング
+   - クリック領域を拡大してユーザビリティ向上
+   - ホバー効果とスムーズなアニメーション
+
+3. :has()疑似クラス
+   - モダンCSSの機能で選択状態の親要素をスタイリング
+   - checked状態のラジオボタンを持つラベルのスタイル変更
+
+【デザインシステム】
+- カラーパレット: #667eea（メインカラー）、#764ba2（アクセント）
+- 角丸: 8px〜15pxで統一された丸み
+- 影効果: box-shadowで奥行きと階層感を表現
+- トランジション: 0.3s easeでスムーズなアニメーション
+
+【レスポンシブ設計】
+- モバイルファースト的アプローチ
+- 768px以下でレイアウトを縦並びに変更
+- touch-friendlyなサイズとクリック領域
+
+【ユーザビリティ向上要素】
+- ホバー効果による明確なフィードバック
+- 無効状態の視覚的表現
+- アクセシブルなフォーカス表示
+- クリック領域の拡大
+
+【視覚的階層】
+- カードベースデザインで情報をグループ化
+- 背景の透明度で奥行き感を表現
+- カラーコントラストで重要度を明示
+
+このCSSでモダンで使いやすいUIが完成。
+次のJavaScript実装で動的な機能を追加。
+*/

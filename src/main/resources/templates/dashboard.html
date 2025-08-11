@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<!-- HTML5の文書型宣言 - 最新のHTML標準を使用 -->
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<!-- html要素: 日本語設定、Thymeleafテンプレートエンジンの名前空間宣言 -->
+<head>
+    <!-- ヘッダー部開始: ページのメタデータ、CSS、JavaScriptを定義 -->
+    <meta charset="UTF-8">
+    <!-- 文字エンコーディングをUTF-8に設定 - 日本語対応 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- レスポンシブデザイン用: モバイル端末での表示最適化 -->
+    <title th:text="${title}">都道府県データ比較ダッシュボード</title>
+    <!-- ページタイトル: SpringBootから動的に設定、デフォルト値も設定 -->
+
+    <!-- 外部CSS読み込み -->
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <!-- Thymeleafの@{}記法で静的リソースパスを安全に解決 -->
+
+    <!-- Chart.js読み込み -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- CDN経由でChart.jsライブラリを読み込み - グラフ描画用 -->
+</head>
+<body>
+<!-- body要素開始: ページの実際のコンテンツ部分 -->
+<div class="container">
+    <!-- メインコンテナ: 全体のレイアウトを統一 -->
+    <h1 th:text="${title}">都道府県データ比較ダッシュボード</h1>
+    <!-- メインタイトル: SpringBootのModelから動的に表示 -->
+
+    <!-- 新規追加：データタイプ選択 -->
+    <div class="data-type-selector">
+        <!-- データ種別選択エリア: 人口/賃金/有効求人倍率の切り替え用 -->
+        <label class="radio-label">
+            <!-- ラベル要素: ラジオボタンと説明テキストをグループ化 -->
+            <input type="radio" name="dataType" value="population" checked>
+            <!-- ラジオボタン: name="dataType"で同グループ、初期選択は人口データ -->
+            <span>📊 人口データ</span>
+            <!-- 表示テキスト: 絵文字付きで視覚的に分かりやすく -->
+        </label>
+        <label class="radio-label">
+            <!-- 2番目のラジオボタン用ラベル -->
+            <input type="radio" name="dataType" value="wage">
+            <!-- 賃金データ選択用ラジオボタン: value="wage"で識別 -->
+            <span>💰 賃金データ</span>
+            <!-- 賃金データ用の表示テキスト -->
+        </label>
+        <label class="radio-label">
+            <!-- 3番目のラジオボタン用ラベル -->
+            <input type="radio" name="dataType" value="job">
+            <!-- 有効求人倍率選択用ラジオボタン: value="job"で識別 -->
+            <span>💼 有効求人倍率</span>
+            <!-- 有効求人倍率用の表示テキスト -->
+        </label>
+    </div>
+
+    <div class="controls">
+        <!-- 操作コントロールエリア: 都道府県選択と比較ボタン -->
+        <select id="prefecture1">
+            <!-- 1番目の都道府県選択ボックス: JavaScriptからID経由でアクセス -->
+            <option value="">都道府県1を選択</option>
+            <!-- デフォルトオプション: 空の値で未選択状態を表現 -->
+            <optgroup label="北海道・東北">
+                <!-- オプショングループ: 地域別に都道府県を整理 -->
+                <option value="01">北海道</option>
+                <!-- 都道府県オプション: value="01"は都道府県コード -->
+                <option value="02">青森県</option>
+                <option value="03">岩手県</option>
+                <option value="04">宮城県</option>
+                <option value="05">秋田県</option>
+                <option value="06">山形県</option>
+                <option value="07">福島県</option>
+            </optgroup>
+            <optgroup label="関東">
+                <!-- 関東地方のグループ -->
+                <option value="08">茨城県</option>
+                <option value="09">栃木県</option>
+                <option value="10">群馬県</option>
+                <option value="11">埼玉県</option>
+                <option value="12">千葉県</option>
+                <option value="13">東京都</option>
+                <option value="14">神奈川県</option>
+            </optgroup>
+            <optgroup label="中部">
+                <!-- 中部地方のグループ -->
+                <option value="15">新潟県</option>
+                <option value="16">富山県</option>
+                <option value="17">石川県</option>
+                <option value="18">福井県</option>
+                <option value="19">山梨県</option>
+                <option value="20">長野県</option>
+                <option value="21">岐阜県</option>
+                <option value="22">静岡県</option>
+                <option value="23">愛知県</option>
+            </optgroup>
+            <optgroup label="近畿">
+                <!-- 近畿地方のグループ -->
+                <option value="24">三重県</option>
+                <option value="25">滋賀県</option>
+                <option value="26">京都府</option>
+                <option value="27">大阪府</option>
+                <option value="28">兵庫県</option>
+                <option value="29">奈良県</option>
+                <option value="30">和歌山県</option>
+            </optgroup>
+            <optgroup label="中国">
+                <!-- 中国地方のグループ -->
+                <option value="31">鳥取県</option>
+                <option value="32">島根県</option>
+                <option value="33">岡山県</option>
+                <option value="34">広島県</option>
+                <option value="35">山口県</option>
+            </optgroup>
+            <optgroup label="四国">
+                <!-- 四国地方のグループ -->
+                <option value="36">徳島県</option>
+                <option value="37">香川県</option>
+                <option value="38">愛媛県</option>
+                <option value="39">高知県</option>
+            </optgroup>
+            <optgroup label="九州・沖縄">
+                <!-- 九州・沖縄地方のグループ -->
+                <option value="40">福岡県</option>
+                <option value="41">佐賀県</option>
+                <option value="42">長崎県</option>
+                <option value="43">熊本県</option>
+                <option value="44">大分県</option>
+                <option value="45">宮崎県</option>
+                <option value="46">鹿児島県</option>
+                <option value="47">沖縄県</option>
+            </optgroup>
+        </select>
+
+        <span class="vs-text">VS</span>
+        <!-- 対戦表示テキスト: 2つの都道府県の比較を視覚的に表現 -->
+
+        <select id="prefecture2">
+            <!-- 2番目の都道府県選択ボックス: prefecture1と同じ構造 -->
+            <option value="">都道府県2を選択</option>
+            <optgroup label="北海道・東北">
+                <option value="01">北海道</option>
+                <option value="02">青森県</option>
+                <option value="03">岩手県</option>
+                <option value="04">宮城県</option>
+                <option value="05">秋田県</option>
+                <option value="06">山形県</option>
+                <option value="07">福島県</option>
+            </optgroup>
+            <optgroup label="関東">
+                <option value="08">茨城県</option>
+                <option value="09">栃木県</option>
+                <option value="10">群馬県</option>
+                <option value="11">埼玉県</option>
+                <option value="12">千葉県</option>
+                <option value="13">東京都</option>
+                <option value="14">神奈川県</option>
+            </optgroup>
+            <optgroup label="中部">
+                <option value="15">新潟県</option>
+                <option value="16">富山県</option>
+                <option value="17">石川県</option>
+                <option value="18">福井県</option>
+                <option value="19">山梨県</option>
+                <option value="20">長野県</option>
+                <option value="21">岐阜県</option>
+                <option value="22">静岡県</option>
+                <option value="23">愛知県</option>
+            </optgroup>
+            <optgroup label="近畿">
+                <option value="24">三重県</option>
+                <option value="25">滋賀県</option>
+                <option value="26">京都府</option>
+                <option value="27">大阪府</option>
+                <option value="28">兵庫県</option>
+                <option value="29">奈良県</option>
+                <option value="30">和歌山県</option>
+            </optgroup>
+            <optgroup label="中国">
+                <option value="31">鳥取県</option>
+                <option value="32">島根県</option>
+                <option value="33">岡山県</option>
+                <option value="34">広島県</option>
+                <option value="35">山口県</option>
+            </optgroup>
+            <optgroup label="四国">
+                <option value="36">徳島県</option>
+                <option value="37">香川県</option>
+                <option value="38">愛媛県</option>
+                <option value="39">高知県</option>
+            </optgroup>
+            <optgroup label="九州・沖縄">
+                <option value="40">福岡県</option>
+                <option value="41">佐賀県</option>
+                <option value="42">長崎県</option>
+                <option value="43">熊本県</option>
+                <option value="44">大分県</option>
+                <option value="45">宮崎県</option>
+                <option value="46">鹿児島県</option>
+                <option value="47">沖縄県</option>
+            </optgroup>
+        </select>
+
+        <button id="compareBtn">比較する</button>
+        <!-- 比較実行ボタン: JavaScriptのイベントリスナーで処理を実行 -->
+    </div>
+
+    <div id="chartContainer">
+        <!-- グラフ表示エリア: Chart.jsによる動的グラフ描画領域 -->
+        <canvas id="populationChart"></canvas>
+        <!-- Canvasエリア: Chart.jsがここにグラフを描画 -->
+    </div>
+</div>
+<!-- メインコンテナ終了 -->
+
+<!-- 外部JavaScript読み込み -->
+<script th:src="@{/js/dashboard.js}"></script>
+<!-- Thymeleafの@{}記法で安全にJavaScriptファイルを読み込み -->
+</body>
+<!-- body要素終了 -->
+</html>
+<!-- html要素終了 -->
+
+<!--
+=== dashboard.html の詳細解説 ===
+
+【新規追加要素】
+1. データタイプ選択セクション (.data-type-selector)
+   - ラジオボタンで人口データ/賃金データを切り替え
+   - name="dataType" で同一グループ化
+   - value="population" / value="wage" で識別
+
+【HTMLの構造】
+1. ヘッダー部 (title設定、CSS/JS読み込み)
+2. メインコンテンツ (.container)
+   - タイトル表示
+   - データタイプ選択 (新規)
+   - 都道府県選択UI (.controls)
+   - グラフ表示エリア (#chartContainer)
+
+【Thymeleafの活用】
+- th:text="${title}" : SpringBootから動的タイトル設定
+- th:href="@{/css/dashboard.css}" : 静的リソースパス解決
+- th:src="@{/js/dashboard.js}" : JavaScript読み込み
+
+【アクセシビリティ対応】
+- 適切な label 要素でフォーム要素をマークアップ
+- optgroup で都道府県を地域別にグループ化
+- セマンティックなHTML構造
+
+【レスポンシブ対応】
+- viewport meta tag でモバイル対応
+- CSSでflexbox使用による柔軟なレイアウト
+
+【JavaScript連携準備】
+- データタイプ選択のradioボタン (name="dataType")
+- 都道府県選択のselectボックス (#prefecture1, #prefecture2)
+- 比較実行ボタン (#compareBtn)
+- グラフ表示用canvas要素 (#populationChart)
+
+次のステップでJavaScriptがこれらの要素を操作してAPI連携を実現。
+-->
